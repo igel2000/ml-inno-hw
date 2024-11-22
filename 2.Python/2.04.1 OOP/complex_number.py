@@ -135,28 +135,7 @@ class ComplexNumber:
         if name in self.__dict__:
             raise Exception(f"Cannot change value of {name}.")
         self.__dict__[name] = value
-    
-if __name__ == '__main__':
-    print('Демо-примеры работы с комплексными числами')
-    c1 = ComplexNumber((1, 2))
-    print(f'  До попытки изменения свойств объекта: {c1}')
-    c1.__real_part = 1.11
-    c1.__imaginary_part = 1.11
-    c1.__polar_r = 1.11
-    c1.__polar_theta = 1.11
-    print(f'  После попытки изменения свойств объекта: {c1}')
-    c2 = ComplexNumber.from_alg((3, 4))  # создание из алгебраической записи
-    c3 = 5
-    c4 = ComplexNumber.from_polar((2, math.pi/4)) #создание из полярной формы
 
-    print(f'  ({c1}) + ({c2}) = {c1 + c2}')
-    print(f'  ({c1}) - ({c2}) = {c1 - c2}')
-    print(f'  ({c1} * {c2}) = {c1 * c2}')
-    print(f'  ({c1} / {c2}) = {c1 / c2}')
-    print(f'  ({c1}) + ({c3}) = {c1 + c3}')
-    print(f'  ({c1}) - ({c3}) = {c1 - c3}')
-    print(f'  ({c1}) * {c3} = {c1 * c3}')
-    print(f'  ({c1}) / {c3} = {c1 / c3}')
-    print(f"  Алгебраическая запись '{c1.algebraic_as_str}' в полярной форме '{c1.polar_as_str}'")
-    print(f"  Полярная форма '{c4.polar_as_str}' в алгебраической записи '{c4.algebraic_as_str}'")
 
+if __name__ == "__main__":
+    pass
