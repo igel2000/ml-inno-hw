@@ -19,19 +19,24 @@ class MLVector(List):
             raise ValueError(f"Неподдерживаемый тип данных {type(coords)}")
     @property
     def coords(self):
+        """ Возвращает список координат вектора """
         return self.__coords
     @property
     def norma_e(self):
+        """ Возвращает евклидову норму (длину) вектора """
         return math.sqrt(sum( i*i for i in self.__coords))
     @property
     def n(self):
+        """ Возвращает размерность вектора """
         return len(self.coords)
     
     def __repr__(self):
+        """ Возвращает строковое представление вектора """
         return f"({",".join(map(str,self.coords))})"
     
     @staticmethod
     def cosa(vector_a, vector_b):
+        """ Возвращает косинус угла между векторами """
         if vector_a.n != vector_b.n:
             raise ValueError("Вектора должны быть одной размерности")
         if vector_a.norma_e ==0 or vector_b.norma_e == 0:
@@ -40,14 +45,16 @@ class MLVector(List):
 
     @classmethod
     def set_tolerance(cls, tol: float):
+        """ Задать точность сравнения """
         cls.__abs_tol = tol
     
     @classmethod
     def get_tolerance(cls):
+        """ Возвращает точность сравнения """
         return cls.__abs_tol
 
-                  
     def __mul__(self, other):
+        """ Выполняет скалярное произведение векторов и произведение вектора на число """
         if isinstance(other, (int, float)):
             new_coords = [ self.__coords[i] * other for i in range(len(self.__coords))]
             return MLVector(new_coords)
@@ -59,6 +66,7 @@ class MLVector(List):
             raise ValueError("Умножать можно на MLVector, int или float")
     
     def __add__(self, other):
+        """ Выполняет сложение векторов """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -68,6 +76,7 @@ class MLVector(List):
             raise ValueError("Складывать можно только с MLVector")
     
     def __sub__(self, other):
+        """ Выполняет вычитание векторов """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -77,6 +86,7 @@ class MLVector(List):
             raise ValueError("Вычитать можно только MLVector")
     
     def __truediv__(self, other):
+        """ Выполняет деление вектора на число """
         if isinstance(other, (int, float)):
             if other == 0:
                 raise ZeroDivisionError
@@ -101,7 +111,7 @@ class MLVector(List):
         return not (self == other)
 
     def __lt__(self, other: object) -> bool:
-        """ сранение вектров по их длине """
+        """ Сравнение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -110,7 +120,7 @@ class MLVector(List):
             raise ValueError("Сравнивать можно только с MLVector")
 
     def __le__(self, other: object) -> bool:
-        """ сранение вектров по их длине """
+        """ Сравнение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -119,7 +129,7 @@ class MLVector(List):
             raise ValueError("Сравнивать можно только с MLVector")
 
     def __gt__(self, other: object) -> bool:
-        """ сранение вектров по их длине """
+        """ Сравнение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -128,7 +138,7 @@ class MLVector(List):
             raise ValueError("Сравнивать можно только с MLVector")
 
     def __ge__(self, other: object) -> bool:
-        """ сранение вектров по их длине """
+        """ Сравнение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
