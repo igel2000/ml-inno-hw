@@ -37,6 +37,15 @@ class MLVector(List):
         if vector_a.norma_e ==0 or vector_b.norma_e == 0:
             raise ValueError("Вектора должны быть не нулевой длины")
         return (vector_a * vector_b) / (vector_a.norma_e * vector_b.norma_e)
+
+    @classmethod
+    def set_tolerance(cls, tol: float):
+        cls.__abs_tol = tol
+    
+    @classmethod
+    def get_tolerance(cls):
+        return cls.__abs_tol
+
                   
     def __mul__(self, other):
         if isinstance(other, (int, float)):

@@ -250,3 +250,18 @@ def test_MLVector_eq_negative():
         x = MLVector((1,2)) <= "str"
 
 #endregion
+
+#region tolerance
+def test_tolerances():
+    assert MLVector.get_tolerance() == 1e-8
+    #MLVector((-6.0/3 , 2.5*2))
+    MLVector.set_tolerance(1e-4)
+    assert MLVector.get_tolerance() == 1e-4
+    v1 = MLVector((2,2))     # длина 2.8284271247461903
+    v2 = MLVector((2,2.001)) # длина 2.829134319893631
+    # при точности сранения 1e-4 вектора должны быть не равны
+    assert v1 != v2
+    # после огрубления точности сранения до 1e-2 вектора должны быть равны
+    MLVector.set_tolerance(1e-2)
+    assert v1 == v2
+#endregion
