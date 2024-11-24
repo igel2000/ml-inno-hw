@@ -35,7 +35,7 @@ def test_MLVector_length_positive():
                 ]
     for vd in vector_desc:
         vector = MLVector(vd[0])
-        assert math.isclose(vector.norma_e, vd[1], abs_tol=0.00000001)
+        assert math.isclose(vector.norma_e, vd[1], abs_tol=MLVector.get_tolerance())
 #endregion
 
 #region  cosinus
@@ -48,7 +48,7 @@ def test_MLVector_cosa_positive():
     for vector_pair in vector_pairs:
         v1 = MLVector(vector_pair[0])
         v2 = MLVector(vector_pair[1])
-        assert math.isclose(MLVector.cosa(v1, v2), vector_pair[2], abs_tol=0.00000001)
+        assert math.isclose(MLVector.cosa(v1, v2), vector_pair[2], abs_tol=MLVector.get_tolerance())
         
 def test_MLVector_cosa_negative():
     vector_pairs = [((1), (1,2)),
@@ -136,7 +136,7 @@ def test_MLVector_mul_positive():
         else:
             v2 = MLVector(vector_pair[1])
             res = v1 * v2
-            assert math.isclose(res, vector_pair[2], abs_tol=0.00000001)
+            assert math.isclose(res, vector_pair[2], abs_tol=MLVector.get_tolerance())
         
 def test_MLVector_mul_negative():
     with pytest.raises(ValueError):

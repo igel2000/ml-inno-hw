@@ -3,7 +3,7 @@ import math
 
 class MLVector(List):
     
-    __abs_tol = 1e-8
+    __abs_tol = 1e-8  # точность сравнения 
     
     def __init__(self, coords: List | tuple):
         if isinstance(coords, (list, tuple)):
@@ -86,6 +86,7 @@ class MLVector(List):
             raise ValueError("Делить можно на int или float")
         
     def __eq__(self, other: object) -> bool:
+        """ сранение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -100,6 +101,7 @@ class MLVector(List):
         return not (self == other)
 
     def __lt__(self, other: object) -> bool:
+        """ сранение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -108,6 +110,7 @@ class MLVector(List):
             raise ValueError("Сравнивать можно только с MLVector")
 
     def __le__(self, other: object) -> bool:
+        """ сранение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -116,6 +119,7 @@ class MLVector(List):
             raise ValueError("Сравнивать можно только с MLVector")
 
     def __gt__(self, other: object) -> bool:
+        """ сранение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
@@ -124,6 +128,7 @@ class MLVector(List):
             raise ValueError("Сравнивать можно только с MLVector")
 
     def __ge__(self, other: object) -> bool:
+        """ сранение вектров по их длине """
         if isinstance(other, MLVector):
             if self.n != other.n:
                 raise ValueError("Вектора должны быть одной размерности")
