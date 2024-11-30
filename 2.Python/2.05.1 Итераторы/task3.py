@@ -5,6 +5,7 @@ def password_generator(password_length=12, seed=None):
     if seed is not None and isinstance(seed, int):
         random.seed(seed)
     while True:
-        password = [chars[random.randint(0, len(chars) - 1)] for _ in range(password_length)]
+        #password = [chars[random.randint(0, len(chars) - 1)] for _ in range(password_length)]
+        password = [random.choice(chars) for _ in range(password_length)]
         yield "".join(password)
 

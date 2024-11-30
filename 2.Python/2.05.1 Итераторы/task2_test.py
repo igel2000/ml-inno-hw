@@ -3,7 +3,9 @@ from task2 import CyclicIterator
 
 @pytest.mark.parametrize("lst_template, repeat_count, expected", 
                          [([1, 2, 3], 2, [1, 2, 3, 1, 2, 3]),
-                          ([-1, 2], None, [-1, 2, -1, 2, -1, 2, -1, 2, -1, 2])
+                          ([-1, 2], None, [-1, 2, -1, 2, -1, 2, -1, 2, -1, 2]),
+                          ((-1, 2), None, [-1, 2, -1, 2, -1, 2, -1, 2, -1, 2]),
+                          (range(3), 2, [0, 1, 2, 0, 1, 2])
                          ])
 def test_cyclic_iterator(lst_template, repeat_count, expected):
     lst = []
