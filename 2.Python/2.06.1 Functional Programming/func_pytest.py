@@ -38,7 +38,6 @@ def test_sort_func(l, expected):
     assert func.sort_func(func.get_list, l) == expected
 #endregion
 
-
 #region Задача 3
 def test_get_permutations():
     r = func.get_permutations("bca", 2)
