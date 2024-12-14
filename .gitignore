@@ -170,3 +170,7 @@ cython_debug/
 
 .idea/
 .gigaide/
+
+
+# extracted_data & result
+/2.Python/2.07.1 Multithreading/extracted_data/
