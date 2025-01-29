@@ -174,3 +174,5 @@ cython_debug/
 
 # extracted_data & result
 /2.Python/2.07.1 Multithreading/extracted_data/
+
+xunit.xml
