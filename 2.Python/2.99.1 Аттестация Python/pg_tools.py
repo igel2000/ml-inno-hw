@@ -3,14 +3,6 @@ from pathlib import Path
 import pandas as pd
 
 # https://bbengfort.github.io/2017/12/psycopg2-transactions/
-
-def connect(env="DATABASE_URL"):
-    url = os.getenv(env)
-    if not url:
-        raise ValueError("no database url specified")
-    return pg.connect(url)
-
-
 def execute_sql_file(conn, sql_file=None):
     if sql_file is None:
         raise ValueError("no sql_file specified")
@@ -45,13 +37,3 @@ def execute_sql_file_to_dataframe(conn, sql_file=None):
     except Exception as e:
         conn.rollback()
         raise e
-
-    
-# Параметры подключения к БД
-pg_user = 'mluser'
-pg_password = 'mlpassword'
-pg_host = 'localhost'
-pg_database = 'pythonatt'
-pg_port = '5433'
-#pg_connection_string = f'postgresql+psycopg2://{pg_user}:{pg_password}@{pg_host}:{pg_port}/{pg_database}'
-pg_connection_string = f'postgresql://{pg_user}:{pg_password}@{pg_host}:{pg_port}/{pg_database}'    
