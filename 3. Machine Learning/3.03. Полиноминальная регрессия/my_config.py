@@ -1,0 +1,38 @@
+#TODO: переделать на .env
+result_foler = "/home/igel/Projects/ml/ml-inno-hw/3. Machine Learning/3.03. Полиноминальная регрессия/result/"
+
+dataset_filename_01_after_EDA = "01_dataset_df_after_EDA.joblib"
+params_filename_01_after_EDA = "01_params_after_EDA.joblib"
+
+dataset_filename_02_after_PrepareGaps = "03_dataset_df_after_PrepareGaps.joblib"
+dataset_wo_nan_filename_02_after_PrepareGaps = "03_dataset_wo_nan_df_after_PrepareGaps.joblib"
+params_filename_02_after_PrepareGaps = "03_params_after_PrepareGaps.joblib"
+
+
+dataset_filename_05_after_CatEncoder = "05_dataset_df_after_CatEncoder.joblib"
+dataset_wo_nan_filename_05_after_CatEncoder = "05_dataset_wo_nan_df_after_CatEncoder.joblib"
+params_filename_05_after_CatEncoder = "05_params_after_CatEncoder.joblib"
+
+
+X_train_StandardScaler_filename_07_after_split = "07_X_train_after_split_StandardScaler.joblib"
+X_test_StandardScaler_filename_07_after_split = "07_X_test_after_split_StandardScaler.joblib"
+y_train_StandardScaler_filename_07_after_split = "07_y_train_after_split_StandardScaler.joblib"
+y_test_StandardScaler_filename_07_after_split = "07_y_test_after_split_StandardScaler.joblib"
+
+
+X_train_MinMaxScaler_filename_07_after_split = "07_X_train_after_split_MinMaxScaler.joblib"
+X_test_MinMaxScaler_filename_07_after_split = "07_X_test_after_split_MinMaxScaler.joblib"
+y_train_MinMaxScaler_filename_07_after_split = "07_y_train_after_split_MinMaxScaler.joblib"
+y_test_MinMaxScaler_filename_07_after_split = "07_y_test_after_split_MinMaxScaler.joblib"
+
+
+X_train_MaxAbsScaler_filename_07_after_split = "07_X_train_after_split_MaxAbsScaler.joblib"
+X_test_MaxAbsScaler_filename_07_after_split = "07_X_test_after_split_MaxAbsScaler.joblib"
+y_train_MaxAbsScaler_filename_07_after_split = "07_y_train_after_split_MaxAbsScaler.joblib"
+y_test_MaxAbsScaler_filename_07_after_split = "07_y_test_after_split_MaxAbsScaler.joblib"
+
+
+X_train_RobustScaler_filename_07_after_split = "07_X_train_after_split_X_RobustScaler.joblib"
+X_test_RobustScaler_filename_07_after_split = "07_X_test_after_split_X_RobustScaler.joblib"
+y_train_RobustScaler_filename_07_after_split = "07_y_train_after_split_X_RobustScaler.joblib"
+y_test_RobustScaler_filename_07_after_split = "07_y_test_after_split_X_RobustScaler.joblib"
