@@ -3,7 +3,6 @@ from pandas.api.types import is_numeric_dtype
 import numpy as np
 from pprint import pprint, pformat
 import copy
-import zipfile
 
 import plotly.express as px
 import plotly.graph_objects as go
@@ -14,6 +13,12 @@ import seaborn as sns
 from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score, root_mean_squared_error, f1_score
+
+import joblib
+
+from pathlib import Path
+
+from my_config import *
 
 def eda_df(df):
     """Провести EDA для датафрейма"""
@@ -66,11 +71,11 @@ def show_boxes(df, columns, ncols = 3, type="box", row_height=500, total_width=1
             break
     fig.show()          
 
-def show_boxes_plt(df, columns, ncols = 3, type="box", row_height=500, total_width=1200):
+def show_boxes_plt(df, columns_x, ncols = 3, type="box", row_height=500, total_width=1200, column_y=None):
     """Показать 'ящики_с_усами' для набора df.
     Ящики будут показаны для столбцов датафрема, перечисленных в columns.
     Графики будут показаны в несколько столбцов, количество которых задается в параметре ncols."""
-    nrows = int(round((len(columns) + 0.5) / ncols, 0))
+    nrows = int(round((len(columns_x) + 0.5) / ncols, 0))
     nrows = nrows if nrows > 1 else 1
 
     if type == "box":
@@ -82,10 +87,13 @@ def show_boxes_plt(df, columns, ncols = 3, type="box", row_height=500, total_wid
             
     plt.figure(figsize=(ncols * 5, nrows * 3))
     
-    for i, column in enumerate(columns, start=1):
+    for i, column in enumerate(columns_x, start=1):
         plt.subplot(nrows, ncols, i)
         if type == "box":
-            sns.boxplot(df[column])
+            if column_y is None:
+                sns.boxplot(x=df[column])
+            else:
+                sns.boxplot(x=df[column], y=df[column_y])
         elif type == "hist":
             sns.histplot(df[column], kde=True)
         else:
@@ -114,32 +122,6 @@ def remove_columns(column, params):
         params["num_columns"].remove(column)
     if column in params["cat_columns"]:
         params["cat_columns"].remove(column)
-        
-def apply_OneHotEncoder(df, columns, columns_X):
-    encoder = OneHotEncoder(sparse_output=False)
-    one_hot_encoded = encoder.fit_transform(df[columns])
-    one_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(columns))
-    new_df = pd.concat([df, one_hot_df], axis=1)
-    new_columns_X = copy.deepcopy(columns_X)
-    new_columns_X.extend(encoder.get_feature_names_out(columns).tolist())
-    for col in columns:
-        if col in columns_X:
-            new_columns_X.remove(col)
-    return new_df, new_columns_X
-
-def apply_OrdinalEncoder(df, columns, columns_X):
-    #TODO: apply_OneHotEncoder и apply_OrdinalEncoder по разному работают с передаваемыми объектами
-    columns_cats = list(columns.values())
-    columns_list = list(columns.keys())
-    columns_ordered = [f'{c}_ordered' for c in columns_list]
-    encoder = OrdinalEncoder(categories = columns_cats)
-    df[columns_ordered] = encoder.fit_transform(df[columns_list])  
-    for col in columns_list:
-        if col in columns_X:
-            columns_X.remove(col)
-    columns_X += columns_ordered
-    return df, columns_X
-
 
 def check_model(model, X_train, y_train, X_test, y_test):
     """Оценить качество модели"""
@@ -170,3 +152,83 @@ def check_model(model, X_train, y_train, X_test, y_test):
     print(f"  MAE:    {round(mae_test,4)}")
     print(f"  r2:     {round(r2_test,4)}")    
     print(f"  median: {round(y_test.median(),4)}")
+    
+def fill_with_mode(data, group_col, target_col):
+    global_mode = data[target_col].mode()[0]
+    def fill_group_mode(x):
+        group_mode = x.mode()
+        if not group_mode.empty:
+            return group_mode[0]
+        else:
+            return global_mode
+    data[target_col] = data.groupby(group_col)[target_col].transform(fill_group_mode)
+    
+def nans_percents(df):
+    return df.isna().sum()/len(df)*100    
+
+def encode_features(src_df, onehot_cols=None, onehot_drop=None, ordinal_cols=None, columns_X=None):
+    df = src_df.copy()  
+    new_columns_X = copy.deepcopy(columns_X)
+    if onehot_cols:
+        encoder = OneHotEncoder(sparse_output=False, drop=onehot_drop)
+        one_hot_encoded = encoder.fit_transform(df[onehot_cols])
+        one_hot_df = pd.DataFrame(one_hot_encoded, columns=encoder.get_feature_names_out(onehot_cols))
+        df = pd.concat([df, one_hot_df], axis=1)
+        new_columns_X += encoder.get_feature_names_out(onehot_cols).tolist()
+        for col in onehot_cols:
+            if col in columns_X:
+                new_columns_X.remove(col)
+        df.drop(onehot_cols, axis=1, inplace=True)
+        
+    if ordinal_cols and ordinal_cols:
+        ordinal_columns_cats = list(ordinal_cols.values())
+        ordinal_columns_list = list(ordinal_cols.keys())
+        encoder = OrdinalEncoder(categories = ordinal_columns_cats)
+        df[ordinal_columns_list] = encoder.fit_transform(df[ordinal_columns_list])  
+
+    return df, new_columns_X
+
+
+def add_scores(models_scores, idx, y_train, y_train_pred, y_test, y_test_pred, params="", coef=""):
+    
+    mse_train = mean_squared_error(y_train, y_train_pred)
+    mae_train = mean_absolute_error(y_train, y_train_pred)    
+    r2_train = r2_score(y_train, y_train_pred)
+    rmse_train = root_mean_squared_error(y_train, y_train_pred)
+    
+    mse_test = mean_squared_error(y_test, y_test_pred)
+    mae_test = mean_absolute_error(y_test, y_test_pred)    
+    r2_test = r2_score(y_test, y_test_pred)
+    rmse_test = root_mean_squared_error(y_test, y_test_pred)
+        
+    models_scores.loc[idx, "mse_train"] = mse_train
+    models_scores.loc[idx, "mse_test"] = mse_test
+    models_scores.loc[idx, "rmse_train"] = rmse_train
+    models_scores.loc[idx, "rmse_test"] = rmse_test
+    models_scores.loc[idx, "mae_train"] = mae_train
+    models_scores.loc[idx, "mae_test"] = mae_test
+    models_scores.loc[idx, "r2_score_train"] = r2_train
+    models_scores.loc[idx, "r2_score_test"] = r2_test
+    models_scores.loc[idx, "params"] = params
+    models_scores.loc[idx, "coef"] = coef
+    
+    joblib.dump(models_scores, Path(result_foler, models_scores_file_name), compress=3)
+    
+def fit_model(models_scores, model_name, model, X_train, y_train, X_test, y_test):
+
+    model.fit(X_train, y_train)
+    y_train_pred = model.predict(X_train)
+    y_test_pred = model.predict(X_test)
+    r2_train = round(model.score(X_train, y_train),4)
+    r2_test = round(model.score(X_test, y_test),4)
+    mae_train = round(mean_absolute_error(y_train, y_train_pred), 4)
+    mae_test = round(mean_absolute_error(y_test, y_test_pred), 4)
+    params = model.get_params()
+    
+    models_scores.loc[model_name, 'r2_train'] = r2_train
+    models_scores.loc[model_name, 'r2_test'] = r2_test
+    models_scores.loc[model_name, 'mae_train'] = mae_train
+    models_scores.loc[model_name, 'mae_test'] = mae_test
+    
+    joblib.dump(models_scores, Path(result_foler, models_scores_file_name), compress=3)
+    joblib.dump(model, Path(result_foler, model_template_filename % model_name), compress=3)    
