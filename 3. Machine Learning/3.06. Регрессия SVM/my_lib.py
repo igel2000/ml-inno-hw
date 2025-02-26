@@ -128,7 +128,11 @@ def check_model(model, X_train, y_train, X_test, y_test):
     # добавить f1_score и roc_auc_score
     y_test_pred = model.predict(X_test)
     y_train_pred = model.predict(X_train)
+    
+    check_model2(y_train, y_train_pred, y_test, y_test_pred)
 
+def check_model2(y_train, y_train_pred, y_test, y_test_pred):
+    """Оценить качество модели"""
     mse_test = mean_squared_error(y_test, y_test_pred)
     mae_test = mean_absolute_error(y_test, y_test_pred)    
     r2_test = r2_score(y_test, y_test_pred)
