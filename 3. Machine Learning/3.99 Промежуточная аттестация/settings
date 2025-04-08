@@ -1,0 +1,27 @@
+# Каталог с датасетом
+DATASET_SUBFOLDER=dataset
+# Каталог для результатов и промежуточных файлов
+RESULT_SUBFOLDER=result
+# Каталог для кеша промежуточных результатов
+CACHE_SUBFOLDER=cached_results
+
+RANDOM_STATE=42
+
+DATASET_FILENAME_AFTER_EDA_BEFORE_OUTLIERS=01_dataset_df_after_EDA_before_outliers.joblib
+PARAMS_FILENAME_AFTER_EDA_BEFORE_OUTLIERS=01_params_after_EDA_before_outliers.joblib
+
+DATASET_FILENAME_AFTER_EDA_AFTER_OUTLIERS=01_dataset_df_after_EDA_after_outliers.joblib
+PARAMS_FILENAME_AFTER_EDA_AFTER_OUTLIERS=01_params_after_EDA_after_outliers.joblib
+
+DATASET_FILENAME_READY_FOR_TRAIN_ORIGINAL=02_dataset_catencoder_df_ready_for_train_original.joblib
+PARAMS_FILENAME_READY_FOR_TRAIN_ORIGINAL=02_params_ready_for_train_original.joblib
+
+X_Train_FILENAME_TEMPLATE=X_Train_%s.joblib
+y_Train_FILENAME_TEMPLATE=y_Train_%s.joblib
+X_Test_FILENAME_TEMPLATE=X_Test_%s.joblib
+y_Test_FILENAME_TEMPLATE=y_Test_%s.joblib
+
+
+# Шаблоны для имен
+GRID_SEARCH_TEMPLATE_FILENAME=03_GridSearch_%s.pickle
+MODEL_CLASS_TEMPLATE_FILENAME=04_model_%s.pickle
