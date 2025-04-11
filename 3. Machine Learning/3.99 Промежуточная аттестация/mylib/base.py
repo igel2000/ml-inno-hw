@@ -2,6 +2,15 @@ from dataclasses import dataclass
 import builtins
 from pathlib import Path
 
+import time
+def st():
+    """старт таймера"""
+    return time.monotonic_ns()
+def ft(start):
+    """финиш таймера и вывод времени"""
+    duration = (time.monotonic_ns() - start) / 1000000000
+    print(f'Затрачено времени: {duration:.2f} секунд')
+    return duration
 
 def get_type(type_name):
     try:
@@ -42,4 +51,6 @@ class Settings():
     def result_gridsearch_filename(self, model_name): 
         return Path(self.result_folder, self.enviroment["GRID_SEARCH_TEMPLATE_FILENAME"] % model_name) 
     def result_model_filename(self, model_name): 
-        return Path(self.result_folder, self.enviroment["MODEL_CLASS_TEMPLATE_FILENAME"] % model_name)         
+        return Path(self.result_folder, self.enviroment["MODEL_CLASS_TEMPLATE_FILENAME"] % model_name)
+    def result_trained_model_filename(self, model_name): 
+        return Path(self.result_folder, self.enviroment["MODEL_CLASS_TEMPLATE_FILENAME"] % f'{model_name}_trained')             

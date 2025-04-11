@@ -59,19 +59,24 @@ class ModelBase(abc.ABC):
             print(f"Модель {type(model.model).__name__} загружена из {model_filename_cache}")
         else:
             print(f"Создается и тренируется модель {model_name} класса {model_class.__name__}")
+            print(f'Гиперпараметры модели: {model_params}')
             model = model_meta_class(model_name)
             model.create_model(model_class, model_params, X_train, X_test, y_train, y_test)
             model.fit()
             model.calc_metrics()
             if need_save:
+                print(f"\nКласс-обвертка модели сохранен в {model_filename}")
                 _ = joblib.dump(model, model_filename)
+                print(f"\nНатренированная модель сохранена в {settings.result_trained_model_filename(model_name)}")
+                _= joblib.dump(model.model, settings.result_trained_model_filename(model_name))
         return model
     
     @staticmethod
     def load_or_create_and_fit_GridSearchCV(model_name, model_class, param_grid, X_train, y_train,
                                              settings, 
                                              scoring='roc_auc', 
-                                             need_save=True, n_jobs=6, verbose=1):
+                                             need_save=True, n_jobs=None, verbose=1,
+                                             use_randomize_search = True, n_iter=100):
         """Загрузить ранее обученные GridSearchCV из кеша. 
         Если в кеше нет - создать и потренировать, найдя лучшие параметры"""
         
@@ -83,15 +88,21 @@ class ModelBase(abc.ABC):
             print(f"GridSearchCV() загружен из {grid_search_filename_cache}")
             grid_search = joblib.load(grid_search_filename_cache)
         else:
-            print(f"Создается и выполняется GridSearchCV для модели {model_name} класса {model_class.__name__}")
-            # Создаем объект GridSearchCV с моделью логистической регрессии и сеткой параметров
-            #grid_search = GridSearchCV(model_class(), param_grid, cv=5, n_jobs=n_jobs, verbose=verbose, scoring=scoring)
-            #grid_search = GridSearchCV(model_class(), param_grid, cv=5, verbose=verbose, scoring=scoring)
-            grid_search = RandomizedSearchCV(model_class(), param_grid, cv=5, n_jobs=n_jobs, verbose=verbose, scoring=scoring)
+            if use_randomize_search:
+                print(f"Создается и выполняется RandomizedSearchCV для модели {model_name} класса {model_class.__name__}")
+                grid_search = RandomizedSearchCV(model_class(), param_grid, cv=5, n_jobs=n_jobs, 
+                                                 verbose=verbose, scoring=scoring,
+                                                 random_state=settings.enviroment["RANDOM_STATE"],
+                                                 n_iter=n_iter)
+            else:
+                print(f"Создается и выполняется GridSearchCV для модели {model_name} класса {model_class.__name__}")
+                grid_search = GridSearchCV(model_class(), param_grid, cv=5, n_jobs=n_jobs, 
+                                           verbose=verbose, scoring=scoring)
             
             # Обучаем модель на данных с использованием кросс-валидации
             grid_search.fit(X_train, y_train)
         
             if need_save:
+                print(f"\nРезультаты поиска оптимальных гиперпараметров модели сохранены в {grid_search_filename}")
                 _ = joblib.dump(grid_search, grid_search_filename)
         return grid_search    

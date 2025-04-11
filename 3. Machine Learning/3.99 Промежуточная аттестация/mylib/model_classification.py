@@ -80,16 +80,16 @@ class ModelClass(ModelBase):
         self.y_test_pred_optimal = (self.y_test_prob >= self.optimal_threshold).astype(int)
 
         self.train_precision = precision_score(self.y_train, self.y_train_pred_optimal)
-        self.train_recall = recall_score(self.y_train, self.y_train_pred_optimal)
-
         self.test_precision = precision_score(self.y_test, self.y_test_pred_optimal)
+
+        self.train_recall = recall_score(self.y_train, self.y_train_pred_optimal)
         self.test_recall = recall_score(self.y_test, self.y_test_pred_optimal)
 
         self.train_accuracy = accuracy_score(self.y_train, self.y_train_pred_optimal)
-        self.test_accuracy = accuracy_score(self.y_train, self.y_train_pred_optimal)
+        self.test_accuracy = accuracy_score(self.y_test, self.y_test_pred_optimal)
 
         self.train_f1_score = f1_score(self.y_train, self.y_train_pred_optimal)
-        self.test_f1_score = f1_score(self.y_train, self.y_train_pred_optimal)
+        self.test_f1_score = f1_score(self.y_test, self.y_test_pred_optimal)
         
     def show_quality(self): #X_train, X_test, y_train, y_test, check_result, title, grid_search, model_cl):
         """Показать различные метрики и промежуточные переменные обучения"""
