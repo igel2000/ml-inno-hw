@@ -178,3 +178,5 @@ cython_debug/
 xunit.xml
 
 /3. Machine Learning/3.99 Промежуточная аттестация/dataset/smoking-drinking-dataset/
+/3. Machine Learning/3.16. RF Regressor, Feature engineering/dataset/
+/3. Machine Learning/3.16. RF Regressor, Feature engineering/settings
