@@ -1,0 +1,23 @@
+# Каталог с датасетом
+DATASET_SUBFOLDER=dataset
+# Каталог для результатов и промежуточных файлов
+RESULT_SUBFOLDER=result
+# Каталог для кеша промежуточных результатов
+CACHE_SUBFOLDER=cached_results
+# Каталог для boxplot
+BOXPLOT_SUBFOLDER=boxplot
+
+RANDOM_STATE=42
+
+DATASET_FILENAME_TEMPLATE=dataset_df_%s.joblib
+PARAMS_FILENAME_TEMPLATE=params_%s.joblib
+
+X_Train_FILENAME_TEMPLATE=X_Train_%s.joblib
+y_Train_FILENAME_TEMPLATE=y_Train_%s.joblib
+X_Test_FILENAME_TEMPLATE=X_Test_%s.joblib
+y_Test_FILENAME_TEMPLATE=y_Test_%s.joblib
+
+
+# Шаблоны для имен
+GRID_SEARCH_TEMPLATE_FILENAME=03_GridSearch_%s.joblib
+MODEL_CLASS_TEMPLATE_FILENAME=04_model_%s.joblib

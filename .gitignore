@@ -180,3 +180,9 @@ xunit.xml
 /3. Machine Learning/3.99 Промежуточная аттестация/dataset/smoking-drinking-dataset/
 /3. Machine Learning/3.16. RF Regressor, Feature engineering/dataset/
 /3. Machine Learning/3.16. RF Regressor, Feature engineering/settings
+
+/3. Machine Learning/3.17. AutoML алгоритмы для работы с данными/catboost_info/
+/3. Machine Learning/3.17. AutoML алгоритмы для работы с данными/dataset/
+/3. Machine Learning/3.17. AutoML алгоритмы для работы с данными/result/
+
+/4. Deep Learning/4.02.2 Свертка, каскад сверток. Слои нейронной сети/data/
