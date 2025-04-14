@@ -175,6 +175,7 @@ cython_debug/
 # extracted_data & result
 /2.Python/2.07.1 Multithreading/extracted_data/
 
+_temp/
 xunit.xml
 
 /3. Machine Learning/3.99 Промежуточная аттестация/dataset/smoking-drinking-dataset/
@@ -185,4 +186,9 @@ xunit.xml
 /3. Machine Learning/3.17. AutoML алгоритмы для работы с данными/dataset/
 /3. Machine Learning/3.17. AutoML алгоритмы для работы с данными/result/
 
-/4. Deep Learning/4.02.2 Свертка, каскад сверток. Слои нейронной сети/data/
+/4. Deep Learning/4.02.2 Свертка, каскад сверток. Слои нейронной сети/train/
+/4. Deep Learning/4.02.2 Свертка, каскад сверток. Слои нейронной сети/test/
+/4. Deep Learning/4.02.2 Свертка, каскад сверток. Слои нейронной сети/train_norm/
+/4. Deep Learning/4.02.2 Свертка, каскад сверток. Слои нейронной сети/test_norm/
+/4. Deep Learning/4.02.2 Свертка, каскад сверток. Слои нейронной сети/train_aug/
+/4. Deep Learning/4.02.2 Свертка, каскад сверток. Слои нейронной сети/test_aug/
